@@ -1,11 +1,6 @@
 
 """Entry-point for the :program:`pg_events` umbrella command."""
-from __future__ import absolute_import, print_function, unicode_literals
-import sys
-
-
 import argparse
-import importlib
 import logging
 
 from pg_events.core import commands
