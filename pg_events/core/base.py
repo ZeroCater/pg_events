@@ -5,7 +5,7 @@ import sys
 REQUIRED_SETTINGS_ATTRIBUTES = [
     'PG_EVENTS_DATABASE_URL',
     'PG_EVENTS_DATA_UPDATE_CALLBACK',
-    'PG_EVENTS_TABLE_UPDATE_CALLBACK',
+    'PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK',
 ]
 
 
@@ -21,7 +21,7 @@ class Command(object):
         self.database_url = settings.PG_EVENTS_DATABASE_URL
 
         self.data_update_callback = self._get_function(settings.PG_EVENTS_DATA_UPDATE_CALLBACK)
-        self.table_update_callback = self._get_function(settings.PG_EVENTS_TABLE_UPDATE_CALLBACK)
+        self.db_schema_update_callback = self._get_function(settings.PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK)
 
     def validate_settings(self, settings):
         for attribute in REQUIRED_SETTINGS_ATTRIBUTES:

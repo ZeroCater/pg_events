@@ -6,7 +6,7 @@ from pg_events.core.base import Command
 log = logging.getLogger(__name__)
 
 
-DATA_UPDATE_CHANNELS = ['pgevents_table_data_update']
+DATA_UPDATE_CHANNELS = ['pgevents_data_update']
 TABLE_UPDATE_CHANNELS = ['pgevents_table_alter', 'pgevents_table_drop']
 
 
@@ -30,4 +30,4 @@ class Worker(Command):
                     if notify.channel in DATA_UPDATE_CHANNELS:
                         self.data_update_callback(notify.payload)
                     elif notify.channel in TABLE_UPDATE_CHANNELS:
-                        self.table_update_callback(notify.payload)
+                        self.db_schema_update_callback(notify.payload)
