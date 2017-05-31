@@ -5,6 +5,10 @@ from contextlib import contextmanager
 import imp as _imp
 
 
+class NotAPackage(Exception):
+    pass
+
+
 @contextmanager
 def cwd_in_path():
     """Context adding the current working directory to sys.path."""
