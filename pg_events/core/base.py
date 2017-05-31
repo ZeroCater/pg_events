@@ -1,6 +1,13 @@
+import logging
 import psycopg2
 import psycopg2.extensions
+import re
 import sys
+
+from pg_events.core.utils import load_module
+
+log = logging.getLogger(__name__)
+
 
 REQUIRED_SETTINGS_ATTRIBUTES = [
     'PG_EVENTS_DATABASE_URL',
@@ -15,7 +22,15 @@ class PgEventWorkerValidationError(Exception):
 
 class Command(object):
 
-    def __init__(self, settings):
+    def __init__(self, args):
+        if not args.settings:
+            log.info("Please pass in settings module using --settings")
+            sys.exit(1)
+
+        module = re.sub('.py$', '', args.settings)
+        settings = load_module(module)
+        print 'SETIINGS', settings
+
         self.validate_settings(settings)
 
         self.database_url = settings.PG_EVENTS_DATABASE_URL
@@ -36,4 +51,4 @@ class Command(object):
 
     def _get_function(self, path):
         module, method = path.rsplit('.', 1)
-        return getattr(__import__(module), method)
+        return getattr(load_module(module), method)
