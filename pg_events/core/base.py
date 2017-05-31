@@ -29,7 +29,6 @@ class Command(object):
 
         module = re.sub('.py$', '', args.settings)
         settings = load_module(module)
-        print 'SETIINGS', settings
 
         self.validate_settings(settings)
 

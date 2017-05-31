@@ -6,14 +6,14 @@ from setuptools import setup
 
 setup(
     name='pg_events',
-    version='0.0.6b13',
+    version='0.0.7',
     description="Postgres events",
     long_description='',
     keywords='postgres python trigger listen notify events',
     author='ZeroCater',
     author_email='tech@zerocater.com',
     url='https://github.com/ZeroCater/pg_events',
-    download_url='https://github.com/ZeroCater/pg_events/tarball/0.0.6b13',
+    download_url='https://github.com/ZeroCater/pg_events/tarball/0.0.7',
     license='MIT',
     packages=setuptools.find_packages(),
     classifiers=[
