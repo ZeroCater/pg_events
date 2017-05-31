@@ -1,6 +1,7 @@
 import psycopg2
 import psycopg2.extensions
 import sys
+import importlib
 
 REQUIRED_SETTINGS_ATTRIBUTES = [
     'PG_EVENTS_DATABASE_URL',
@@ -36,4 +37,4 @@ class Command(object):
 
     def _get_function(self, path):
         module, method = path.rsplit('.', 1)
-        return getattr(__import__(module), method)
+        return getattr(importlib.import_module(module), method)
