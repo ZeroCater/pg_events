@@ -33,9 +33,9 @@ class Command(object):
         module = re.sub('.py$', '', args.settings)
         settings = load_module(module)
 
-        self.validate_settings(settings)
-
         self.auto_rebuild = args.auto_rebuild
+
+        self.validate_settings(settings)
         self.database_url = settings.PG_EVENTS_DATABASE_URL
 
         self.data_update_callback = self._get_function(settings.PG_EVENTS_DATA_UPDATE_CALLBACK)
