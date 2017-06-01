@@ -1,10 +1,10 @@
 # Postgres events for Python
 
-This package provides an framework for setting and receiving events from a postgres database. It will call the defined callback function when data change on tables or the schema of the database has changed (tables added/removed, columns modified, etc).
+This package provides a framework for setting and receiving events from a Postgres database. It will call the defined callback function when data in tables or the schema of the database (tables added/removed, columns modified, etc) changes.
 
-Once properly setup, this package will automatically pick up any changes made to the database and set proper triggers and events. The build method is idempotent and could be called as many times. We use a combination of postgres built-in TRIGGER and LISTEN/NOTIFY to call defined methods in python.
+Once properly setup, this package will automatically pick up any changes made to the database and set proper triggers and events. There is no additional steps required to keep the triggers up to date. The build method is idempotent and could be called as many times. We use a combination of Postgres built-in TRIGGER and LISTEN/NOTIFY to call defined methods in python.
 
-**Note** The auto rebuild feature only works if you have superuser permissions on the database. If you are using a postgres database on Heroku you cannot use this feature. For more details see the `build` method below.
+**Note:** The auto rebuild feature only works if you have superuser permissions on the database. If you are using a Postgres database on Heroku you cannot use this feature. For more details see the `build` method below.
 
 ## Installation
 
@@ -14,7 +14,7 @@ Install the package using `pip`:
 pip install pg_events
 ```
 
-The package requires the following constants, the best is to include them in python file and pass the file as a commandline argument:
+The package requires the following constants, the best is to include them in a python file and pass the file as a command-line argument:
 
 ```python
 PG_EVENTS_DATABASE_URL = <the DATABASE_URL>
@@ -24,7 +24,7 @@ PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK = <my_module.callback_func>
 
 ## Initial Build
 
-To create the initial triggers in the database run the following command from the commandline:
+To create the initial triggers in the database run the following command from the command-line:
 
 ```
 pg_events build --settings <my_module.settings> [--auto-rebuild <true/false>]
@@ -42,7 +42,7 @@ If you do not have superuser permissions on the database you should disable auto
 
 ## Worker
 
-In order to listen to notifications from the database, we will have a worker that constantly listens to these notifications. One an event is triggered, it calls the defined callback function with the payload of the event.
+In order to listen to notifications from the database, we will have a worker that constantly listens to these notifications. Once an event is triggered, it calls the defined callback function with the payload of the event.
 
 To start a worker:
 
