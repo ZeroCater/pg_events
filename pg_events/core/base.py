@@ -12,6 +12,9 @@ log = logging.getLogger(__name__)
 REQUIRED_SETTINGS_ATTRIBUTES = [
     'PG_EVENTS_DATABASE_URL',
     'PG_EVENTS_DATA_UPDATE_CALLBACK',
+]
+
+REQUIRED_AUTO_REBUILD_ATTRIBUTES = [
     'PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK',
 ]
 
@@ -32,6 +35,7 @@ class Command(object):
 
         self.validate_settings(settings)
 
+        self.auto_rebuild = args.auto_rebuild
         self.database_url = settings.PG_EVENTS_DATABASE_URL
 
         self.data_update_callback = self._get_function(settings.PG_EVENTS_DATA_UPDATE_CALLBACK)
@@ -39,6 +43,13 @@ class Command(object):
 
     def validate_settings(self, settings):
         for attribute in REQUIRED_SETTINGS_ATTRIBUTES:
+            if not hasattr(settings, attribute):
+                raise PgEventWorkerValidationError('Settings should include attribute {}'.format(attribute))
+
+        if not self.auto_rebuild:
+            return
+
+        for attribute in REQUIRED_AUTO_REBUILD_ATTRIBUTES:
             if not hasattr(settings, attribute):
                 raise PgEventWorkerValidationError('Settings should include attribute {}'.format(attribute))
 

@@ -47,7 +47,7 @@ In order to listen to notifications from the database, we will have a worker tha
 To start a worker:
 
 ```
-pg_events worker --settings <my_module.settings>
+pg_events worker --settings <my_module.settings>  [--auto-rebuild <true/false>]
 ```
 
 The worker is very efficient in handling many events. It's recommended to keep callback functions light and process events asynchronously. Otherwise, you might need multiple worker processes.
@@ -57,7 +57,7 @@ The worker is very efficient in handling many events. It's recommended to keep c
 There are 2 type of callback functions:
 
 - `PG_EVENTS_DATA_UPDATE_CALLBACK`
-- `PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK`
+- `PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK` (Only when auto rebuild is not disabled)
 
 ### `PG_EVENTS_DATA_UPDATE_CALLBACK`
 
@@ -83,7 +83,7 @@ The payload could include all or some of the keys depending on if the object is 
 
 ### `PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK`
 
-This function is used when there are changes to tables. For instance, columns have been modified on a table, a table being added or removed, etc. The function signature should be as follows:
+This function is used when there are changes to tables. For instance, columns have been modified on a table, a table being added or removed, etc. This is not required if you have disabled the auto rebuild feature. The function signature should be as follows:
 
 ```
 def callback_func(payload):

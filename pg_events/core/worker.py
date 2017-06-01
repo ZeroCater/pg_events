@@ -29,5 +29,5 @@ class Worker(Command):
                     log.info('Notification {} received'.format(notify.channel))
                     if notify.channel in DATA_UPDATE_CHANNELS:
                         self.data_update_callback(notify.payload)
-                    elif notify.channel in TABLE_UPDATE_CHANNELS:
+                    elif notify.channel in TABLE_UPDATE_CHANNELS and self.auto_rebuild:
                         self.db_schema_update_callback(notify.payload)
