@@ -4,6 +4,8 @@ This package provides an framework for setting and receiving events from a postg
 
 Once properly setup, this package will automatically pick up any changes made to the database and set proper triggers and events. The build method is idempotent and could be called as many times. We use a combination of postgres built-in TRIGGER and LISTEN/NOTIFY to call defined methods in python.
 
+**Note** The auto rebuild feature only works if you have superuser permissions on the database. If you are using a postgres database on Heroku you cannot use this feature. For more details see the `build` method below.
+
 ## Installation
 
 Install the package using `pip`:
@@ -25,7 +27,7 @@ PG_EVENTS_DB_SCHEMA_UPDATE_CALLBACK = <my_module.callback_func>
 To create the initial triggers in the database run the following command from the commandline:
 
 ```
-pg_events build --settings <my_module.settings>
+pg_events build --settings <my_module.settings> [--auto-rebuild <true/false>]
 ```
 
 The argument `--settings` is the file containing required constants mentioned above.
@@ -33,6 +35,10 @@ The argument `--settings` is the file containing required constants mentioned ab
 This prepares the database to send notifications to the worker. The command is idempotent and could be called as many times.
 It is only required to be called once on a database. No need to call this after migrations or deploys, it will be fine and have no effect if you do so.
 If you are running on a highly active database, it is recommended not to call this method too often, since it recreates all triggers and there is a chance to miss events in between.
+
+If you do not have superuser permissions on the database you should disable auto rebuild. To disable the auto rebuild feature, you can pass the `--auto-rebuild` argument as `false`, the default value is `True`. We recommend using the `build` method as a post deploy or post migration script. The method is idempotent and it's safe to call multiple times.
+
+
 
 ## Worker
 
