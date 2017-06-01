@@ -8,10 +8,6 @@ log = logging.getLogger(__name__)
 
 class Build(Command):
 
-    def __init__(self, args):
-        super(Build, self).__init__(args)
-        self.auto_rebuild = args.auto_rebuild
-
     def execute(self):
         conn = self.establish_connection()
         conn.autocommit = True

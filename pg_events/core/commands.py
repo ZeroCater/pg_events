@@ -19,6 +19,8 @@ def build(args):
 def add_commands(subparsers):
     attach_parser = subparsers.add_parser('worker')
     attach_parser.add_argument('--settings', required=True)
+    attach_parser.add_argument('--auto-rebuild', default=True,
+                               type=lambda x: bool(strtobool(x)), dest='auto_rebuild')
     attach_parser.set_defaults(func=worker)
 
     attach_parser = subparsers.add_parser('build')
