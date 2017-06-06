@@ -42,6 +42,7 @@ BEGIN
             table_schema NOT IN ('pg_catalog', 'information_schema')
             AND table_schema NOT LIKE 'pg_toast%'
             AND table_name NOT LIKE 'pg_%'
+            AND table_name NOT LIKE '_%'
     LOOP
         command := format(
             'DROP TRIGGER IF EXISTS %s ON %s; ' ||
