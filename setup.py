@@ -6,14 +6,14 @@ from setuptools import setup
 
 setup(
     name='pg_events',
-    version='0.1.3',
+    version='0.1.4',
     description="Postgres events",
     long_description='',
     keywords='postgres python django trigger listen notify events heroku connect',
     author='ZeroCater',
     author_email='tech@zerocater.com',
     url='https://github.com/ZeroCater/pg_events',
-    download_url='https://github.com/ZeroCater/pg_events/tarball/0.1.3',
+    download_url='https://github.com/ZeroCater/pg_events/tarball/0.1.4',
     license='MIT',
     packages=setuptools.find_packages(),
     package_data={'pg_events': ['core/schemas/*.sql']},
