@@ -40,13 +40,15 @@ BEGIN
             information_schema.tables
         WHERE
             table_schema NOT IN ('pg_catalog', 'information_schema')
-            AND table_schema NOT LIKE 'pg_toast%'
-            AND table_name NOT LIKE 'pg_%'
-            AND table_name NOT LIKE '_%'
+            AND table_schema NOT LIKE 'pg\_toast%'
+            AND table_name NOT LIKE 'pg\_%'
+            AND table_name NOT LIKE '\_%'
     LOOP
         command := format(
+            'SET search_path TO %s; ' ||
             'DROP TRIGGER IF EXISTS %s ON %s; ' ||
-            'CREATE TRIGGER %1$s AFTER INSERT OR UPDATE OR DELETE ON %2$s FOR EACH ROW EXECUTE PROCEDURE pgevents_data_update_notify();',
+            'CREATE TRIGGER %2$s AFTER INSERT OR UPDATE OR DELETE ON %3$s FOR EACH ROW EXECUTE PROCEDURE pgevents_data_update_notify();',
+            quote_ident(rec.table_schema),
             format('pgevents_%s__%s', quote_ident(rec.table_schema), quote_ident(rec.table_name)),
             quote_ident(rec.table_name)
         );
