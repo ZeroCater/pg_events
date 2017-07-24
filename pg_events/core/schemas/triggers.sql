@@ -45,12 +45,10 @@ BEGIN
             AND table_name NOT LIKE '\_%'
     LOOP
         command := format(
-            'SET search_path TO %s; ' ||
             'DROP TRIGGER IF EXISTS %s ON %s; ' ||
-            'CREATE TRIGGER %2$s AFTER INSERT OR UPDATE OR DELETE ON %3$s FOR EACH ROW EXECUTE PROCEDURE pgevents_data_update_notify();',
-            quote_ident(rec.table_schema),
+            'CREATE TRIGGER %1$s AFTER INSERT OR UPDATE OR DELETE ON %2$s FOR EACH ROW EXECUTE PROCEDURE pgevents_data_update_notify();',
             format('pgevents_%s__%s', quote_ident(rec.table_schema), quote_ident(rec.table_name)),
-            quote_ident(rec.table_name)
+            format('%s.%s', quote_ident(rec.table_schema), quote_ident(rec.table_name))
         );
         EXECUTE command;
         RETURN NEXT command;
