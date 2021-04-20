@@ -24,7 +24,7 @@ setup(
         "Intended Audience :: Developers",
     ],
     install_requires=[
-        'psycopg2>=2.6,<2.8'
+        'psycopg2>=2.6'
     ],
     entry_points={
         'console_scripts': [
